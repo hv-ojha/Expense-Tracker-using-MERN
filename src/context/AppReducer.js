@@ -9,10 +9,18 @@ export default (state, action) => {
             }
         
         case 'ADD_TRANSACTION': 
-            window.localStorage.setItem('transactions', JSON.stringify([...state.transactions,action.payload]))
-            return {
-                ...state,
-                transactions: [...state.transactions, action.payload]
+            const transaction = action.payload;
+            const amt = parseInt(transaction.amount);
+            if(transaction.text !== '' && (!isNaN(amt) && amt !== 0)) {
+                window.localStorage.setItem('transactions', JSON.stringify([...state.transactions,action.payload]))
+                return {
+                    ...state,
+                    transactions: [...state.transactions, action.payload]
+                }
+            } else {
+                return{
+                    ...state
+                }
             }
         
         default: 
