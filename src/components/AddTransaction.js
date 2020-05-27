@@ -20,11 +20,17 @@ export const AddTransaction = () => {
         }
     }
 
-    const handleChange = ({ target }) => {
-        setTransaction({ [target.name]: target.value });
+    const handleChange = e => {
+        e.preventDefault();
+
+        setTransaction({
+            ...transaction,
+            [e.target.name]: e.target.value 
+        });
      };
 
     useEffect(() => {
+        console.log(transaction);
         const amt = parseInt(transaction.amount);
         if(transaction.text !== '' && (!isNaN(amt) && amt !== 0)) {
             setDisabled(false);
@@ -57,7 +63,7 @@ export const AddTransaction = () => {
                 <div className="form-control">
                 <label>Amount <br />
                     (negative - expense, positive - income)</label>
-                <input type="number" name="amount" value={transaction.amount} onChange={handleChange} placeholder="Enter amount..." />
+                <input type="number" name="amount" value={transaction.amount} onChange={handleChange.bind(this)} placeholder="Enter amount..." />
                 </div>
                 <button 
                     disabled={disabled}
